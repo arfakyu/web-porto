@@ -615,6 +615,10 @@ body {
   gap: 28px;
 }
 
+#organization .experience-grid {
+  grid-template-columns: 1fr;
+}
+
 .exp-card {
   background: var(--white);
   border: var(--border);
