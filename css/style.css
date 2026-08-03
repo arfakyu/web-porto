@@ -686,9 +686,6 @@ body {
   pointer-events: none;
 }
 
-.exp-card:hover .exp-photo {
-}
-
 .img-wrap {
   flex: 1;
   min-width: 0;
@@ -1185,11 +1182,6 @@ body {
 .reveal-delay-13 { transition-delay: 1.3s; }
 .reveal-delay-14 { transition-delay: 1.4s; }
 .reveal-delay-15 { transition-delay: 1.5s; }
-.reveal-delay-16 { transition-delay: 1.6s; }
-.reveal-delay-17 { transition-delay: 1.7s; }
-.reveal-delay-18 { transition-delay: 1.8s; }
-.reveal-delay-19 { transition-delay: 1.9s; }
-.reveal-delay-20 { transition-delay: 2s; }
 
 /* ===== LIGHTBOX ===== */
 .lightbox {
