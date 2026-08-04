@@ -1,4 +1,3 @@
-## Coming Soon
 # Muhammad Arfa Raditya — Website Portfolio 
 
 Website Portofolio bertema Neo Brutalism. Dibuat dengan HTML, CSS, dan JavaScript murni tanpa framework.
