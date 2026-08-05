@@ -63,6 +63,12 @@ function openLightbox(index, group) {
   currentIndex = index;
   updateLightbox();
   lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
 }
 
 function prevImage() {
@@ -100,9 +106,7 @@ lightboxNext.addEventListener('click', (e) => {
   nextImage();
 });
 
-lightbox.addEventListener('click', () => {
-  lightbox.classList.remove('active');
-});
+lightbox.addEventListener('click', closeLightbox);
 
 setTimeout(function() {
   var els = document.querySelectorAll('#hero .hero-text > *, .hero-photo-wrapper');
@@ -123,8 +127,21 @@ function resetZoom() {
   lightboxImg.style.transform = '';
 }
 
+function clampPan() {
+  var vw = lightbox.clientWidth || window.innerWidth;
+  var vh = lightbox.clientHeight || window.innerHeight;
+  var bw = lightboxImg.offsetWidth;
+  var bh = lightboxImg.offsetHeight;
+  if (!bw || !bh) { panX = 0; panY = 0; return; }
+  var maxX = Math.max(0, (bw * zoomLevel - vw) / 2);
+  var maxY = Math.max(0, (bh * zoomLevel - vh) / 2);
+  panX = Math.max(-maxX, Math.min(maxX, panX));
+  panY = Math.max(-maxY, Math.min(maxY, panY));
+}
+
 function applyZoom() {
   if (zoomLevel < 1.1) { resetZoom(); return; }
+  clampPan();
   lightboxImg.style.transform = 'translate(' + panX + 'px, ' + panY + 'px) scale(' + zoomLevel + ')';
 }
 
@@ -158,6 +175,14 @@ lightboxImg.addEventListener('contextmenu', function(e) {
   if (zoomLevel > 1) e.preventDefault();
 });
 
+lightboxImg.addEventListener('load', function() {
+  if (lightbox.classList.contains('active') && zoomLevel > 1) applyZoom();
+});
+
+lightbox.addEventListener('wheel', function(e) {
+  e.preventDefault();
+}, { passive: false });
+
 document.addEventListener('mousemove', function(e) {
   if (!isDragging) return;
   var dx = e.clientX - dragStartX;
@@ -176,7 +201,7 @@ document.addEventListener('mouseup', function() {
 });
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') lightbox.classList.remove('active');
+  if (e.key === 'Escape') closeLightbox();
   if (e.key === 'ArrowLeft') prevImage();
   if (e.key === 'ArrowRight') nextImage();
 });
